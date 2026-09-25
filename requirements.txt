@@ -1,0 +1,29 @@
+python-chess>=1.10.0
+PySide6>=6.5.0
+mss>=9.0.0
+Pillow>=10.0.0
+numpy>=1.24.0
+opencv-python-headless>=4.8.0
+
+# --- Phase 5: piece recognition (YOLO / PyTorch) -----------------------------
+# Install these MANUALLY; a plain `pip install -r requirements.txt` is wrong for
+# them on this machine. See the Phase 5 report for the reasoning.
+#
+# 1) CPU-only torch (avoids ~3GB of unused CUDA wheels):
+#      pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+# 2) ultralytics' own dependencies (everything EXCEPT opencv-python):
+#      pip install cloudpickle matplotlib pyyaml requests psutil polars \
+#                  nvidia-ml-py ultralytics-thop ultralytics-platform
+# 3) ultralytics itself, without its dependency resolver, because it hard-requires
+#    the non-headless `opencv-python`, which cannot be imported here (no libGL)
+#    and would clobber the working `opencv-python-headless`:
+#      pip install --no-deps ultralytics
+#      pip install dill          # required when loading our chess checkpoint
+#
+# torch>=2.6.0
+# ultralytics>=8.3.0
+# dill>=0.4.0
+#
+# Model weights (50 MB) are NOT in this file. Download once with:
+#   mkdir -p models && curl -L -o models/nakst-chess-2d-best.pt \
+#     https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection/resolve/main/best.pt
